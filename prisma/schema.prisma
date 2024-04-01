@@ -16,18 +16,22 @@ model Member {
   nickname String?
   point    Int      @default(0)
   comments Comment[]
+  diary Diary[]
   refreshToken String?  @unique 
 }
 
 model Diary {
+
   id       String    @id @default(cuid())
-  title    String
+  title    String  @db.VarChar(1000)
+  contents String  @db.VarChar(5000)
   comments Comment[]
-  date     DateTime
+  writerId String
+  writer Member @relation(fields: [writerId],references: [id])
   like     Int       @default(0)
-  isShare  Boolean   @default(false)
-  created_At DateTime?
-  updated_At DateTime?
+  isShare  Boolean   @default(true)
+  created_At String?
+  updated_At String?
 }
 
 //댓글 모델
@@ -45,8 +49,8 @@ model Comment {
   children Comment[] @relation("ParentChild")
   diary    Diary    @relation(fields: [diaryId], references: [id], map: "CommentDiary_FK")
   diaryId  String
-  created_At DateTime?
-  updated_At DateTime?
+  created_At String?
+  updated_At String?
 }
 
 
