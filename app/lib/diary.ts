@@ -16,7 +16,7 @@ const createNewDiary = async ({
       data: {
         writerId: writer + '',
         isShare,
-        title,
+        title: title,
         contents: content,
         created_At: toKoreanTimeStamp(new Date()),
         updated_At: toKoreanTimeStamp(new Date()),
@@ -29,4 +29,17 @@ const createNewDiary = async ({
   }
 };
 
-export { createNewDiary };
+const getAllDiaryByUser = async (userId: string) => {
+  try {
+    const allDiary = await prisma.diary.findMany({
+      where: {
+        writerId: userId + '',
+      },
+    });
+    return allDiary;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export { createNewDiary, getAllDiaryByUser };
