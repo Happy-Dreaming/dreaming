@@ -4,12 +4,38 @@ import { DIARY } from '../../../constants';
 import { isLengthInRange } from '../../../utils';
 import prisma from '../../../prisma/client';
 import { NextApiRequest } from 'next';
-import { createNewDiary } from '../../lib/diary';
+import { createNewDiary, getAllDiaryByUser } from '../../lib/diary';
 import { cookies } from 'next/headers';
 import { JwtPayload } from 'jsonwebtoken';
 
 export async function GET(req: NextRequest) {
-  //검증된 유저의 모든 다이어리를 반환한다.
+  const userId = verifyToken(
+    cookies().get('dreaming_accessToken')?.value ?? ''
+  ).userId;
+
+  try {
+    const getAllPosts = await getAllDiaryByUser(userId);
+
+    if (userId && getAllPosts) {
+      return NextResponse.json(getAllPosts, {
+        status: 200,
+      });
+    }
+  } catch (e) {
+    return NextResponse.json(
+      {
+        error: '유저의 다이어리를 불러올 수 없어요',
+      },
+      {
+        status: 502,
+      }
+    );
+  }
+
+  const getAllPosts = await getAllDiaryByUser(userId);
+  return NextResponse.json(getAllPosts, {
+    status: 200,
+  });
 }
 
 export async function POST(req: NextRequest) {
@@ -50,9 +76,9 @@ export async function POST(req: NextRequest) {
       title,
       content,
       isShare,
-      writer: decodedToken?.userId,
+      writer: Number(decodedToken?.userId),
     });
-    return NextResponse.json(JSON.stringify(newPost), {
+    return NextResponse.json(newPost, {
       status: 200,
     });
   } catch (e) {

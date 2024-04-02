@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
       },
       take: 5,
     });
-    return NextResponse.json(JSON.stringify(getAllBestPosts), {
+    return NextResponse.json(getAllBestPosts, {
       status: 200,
     });
   } catch (e) {

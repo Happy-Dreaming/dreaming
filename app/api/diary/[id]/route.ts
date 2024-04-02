@@ -20,7 +20,7 @@ export async function GET(req: NextRequest) {
     console.error(e, '다이어리를 찾을 수 없어요');
     return NextResponse.json(
       {
-        status: '다이어리를 찾을 수 없어요!',
+        error: '다이어리를 찾을 수 없어요!',
       },
       {
         status: 404,
@@ -34,4 +34,8 @@ export async function GET(req: NextRequest) {
       status: 200,
     }
   );
+}
+
+export async function DELETE(req:NextRequest) {
+  
 }
