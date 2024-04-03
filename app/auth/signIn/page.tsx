@@ -7,12 +7,10 @@ const SignIn = () => {
   useEffect(() => {
     const createNewPost = async () => {
       await fetch(`/api/diary`, {
-        method: 'POST',
-        body: JSON.stringify({
-          title: '새 포스트',
-          content: '새 포스트 내용',
-          isShare: false,
-        }),
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
       console.log(createNewPost);
     };

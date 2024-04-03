@@ -39,11 +39,6 @@ export async function GET(req: NextRequest) {
       }
     );
   }
-
-  const getAllPosts = await getAllDiaryByUser(userId);
-  return NextResponse.json(getAllPosts, {
-    status: 200,
-  });
 }
 
 export async function POST(req: NextRequest) {
@@ -101,7 +96,7 @@ export async function POST(req: NextRequest) {
       isShare,
       writer: Number(decodedToken?.userId),
     });
-    return NextResponse.json(newPost, {
+    return new Response(JSON.stringify(newPost), {
       status: 200,
     });
   } catch (e) {
