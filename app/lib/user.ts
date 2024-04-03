@@ -8,6 +8,24 @@ interface createNewUserParms {
   refreshToken: string;
 }
 
+const getUserByUserId = async (userId: string) => {
+  try {
+    return await prisma.member.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        id:true,
+        name:true,
+        point:true,
+        picture:true,
+      },
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 const createNewUser = async ({
   id,
   name,
@@ -45,4 +63,4 @@ const createNewUser = async ({
   return newUniqueUser;
 };
 
-export { createNewUser };
+export { createNewUser, getUserByUserId };
