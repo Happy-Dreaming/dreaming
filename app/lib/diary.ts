@@ -52,12 +52,18 @@ const getDiaryById = async (diaryId: string) => {
   }
 };
 
-const getAllDiaryByUser = async (userId: string) => {
+const getAllDiaryByUser = async (
+  userId: string,
+  skip: number,
+  take: number
+) => {
   try {
     const allDiary = await prisma.diary.findMany({
       where: {
         writerId: userId + '',
       },
+      skip,
+      take,
     });
     return allDiary;
   } catch (e) {

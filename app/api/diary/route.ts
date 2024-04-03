@@ -6,6 +6,8 @@ import { createNewDiary, getAllDiaryByUser } from '../../lib/diary';
 import { cookies } from 'next/headers';
 
 export async function GET(req: NextRequest) {
+  const page = req.nextUrl.searchParams.get('page');
+  const pageSize = req.nextUrl.searchParams.get('pageSize');
   try {
     const userId = verifyToken(
       cookies().get('dreaming_accessToken')?.value ?? ''
@@ -26,7 +28,11 @@ export async function GET(req: NextRequest) {
     const userId = verifyToken(
       cookies().get('dreaming_accessToken')?.value ?? ''
     ).userId;
-    const getAllPosts = await getAllDiaryByUser(userId);
+    const getAllPosts = await getAllDiaryByUser(
+      userId,
+      parseInt(page as string),
+      parseInt(pageSize as string)
+    );
 
     if (userId && getAllPosts) {
       return new Response(JSON.stringify(getAllPosts), {
