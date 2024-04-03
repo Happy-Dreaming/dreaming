@@ -39,22 +39,26 @@ const createCommentByDiaryId = async ({
   }
 };
 
-const deleteCommentById = async (commentId: string) => {
+const deleteCommentById = async (commentId: string, userId: string) => {
   try {
+    //댓글 작성자가 현재 로그인 한 유저와 동일하다면
     //해당 댓글을 부모로 갖는 모든 자식 댓글들
+
     const childComments = await prisma.comment.findMany({
       where: {
         parentId: commentId,
+        writerId: userId + '',
       },
     });
 
     childComments.forEach(async (comment) => {
-      await deleteCommentById(comment.id);
+      await deleteCommentById(comment.id, userId + '');
     });
 
     await prisma.comment.delete({
       where: {
         id: commentId,
+        writerId: userId + '',
       },
     });
   } catch (e) {
