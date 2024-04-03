@@ -2,22 +2,30 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken } from '../../lib/token';
 import { DIARY } from '../../../constants';
 import { isLengthInRange } from '../../../utils';
-import prisma from '../../../prisma/client';
-import { NextApiRequest } from 'next';
 import { createNewDiary, getAllDiaryByUser } from '../../lib/diary';
 import { cookies } from 'next/headers';
-import { JwtPayload } from 'jsonwebtoken';
 
 export async function GET(req: NextRequest) {
   const userId = verifyToken(
     cookies().get('dreaming_accessToken')?.value ?? ''
   ).userId;
 
+  if (!userId) {
+    return new Response(
+      JSON.stringify({
+        error: '토큰이 만료되었습니다.',
+      }),
+      {
+        status: 401,
+      }
+    );
+  }
+
   try {
     const getAllPosts = await getAllDiaryByUser(userId);
 
     if (userId && getAllPosts) {
-      return NextResponse.json(getAllPosts, {
+      return new Response(JSON.stringify(getAllPosts), {
         status: 200,
       });
     }
@@ -39,6 +47,21 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const userId = verifyToken(
+    cookies().get('dreaming_accessToken')?.value ?? ''
+  ).userId;
+
+  if (!userId) {
+    return new Response(
+      JSON.stringify({
+        error: '토큰이 만료되었습니다.',
+      }),
+      {
+        status: 401,
+      }
+    );
+  }
+
   const { title, content, isShare } = await req.json();
   if (!isLengthInRange(title, DIARY.TITLE.MIN_LENGTH, DIARY.TITLE.MAX_LENGTH)) {
     return NextResponse.json(
@@ -90,7 +113,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-
-export async function DELETE(req: NextRequest) {}
-
-export async function PUT(req: NextRequest) {}

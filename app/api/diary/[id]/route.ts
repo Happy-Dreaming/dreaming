@@ -8,15 +8,34 @@ import {
 import { isLengthInRange } from '../../../../utils';
 import { DIARY } from '../../../../constants';
 import { verifyToken } from '../../../lib/token';
+import { cookies } from 'next/headers';
 
 export async function GET(req: NextRequest) {
-  const id = new URL(req.url).pathname.replace(/[^0-9]/g, '');
+  const urlArray = new URL(req.url).pathname.split('/');
+  const id = urlArray[urlArray.length - 1];
+  const userId = verifyToken(
+    cookies().get('dreaming_accessToken')?.value ?? ''
+  ).userId;
+
+  if (!userId) {
+    return new Response(
+      JSON.stringify({
+        error: '토큰이 만료되었습니다.',
+      }),
+      {
+        status: 401,
+      }
+    );
+  }
+
   try {
     const diary = await getDiaryById(id);
     if (diary) {
-      return NextResponse.json(diary, {
-        status: 200,
-        statusText: '다이어리를 성공적으로 찾았어요!',
+      return new Response(JSON.stringify(diary), {
+        status: 200, // HTTP 상태 코드 200 (OK)
+        headers: {
+          'Content-Type': 'application/json', // 컨텐츠 타입을 명시합니다.
+        },
       });
     }
   } catch (e) {
@@ -32,7 +51,23 @@ export async function GET(req: NextRequest) {
   }
 }
 export async function DELETE(req: NextRequest) {
-  const id = new URL(req.url).pathname.replace(/[^0-9]/g, '');
+  const userId = verifyToken(
+    cookies().get('dreaming_accessToken')?.value ?? ''
+  ).userId;
+
+  if (!userId) {
+    return new Response(
+      JSON.stringify({
+        error: '토큰이 만료되었습니다.',
+      }),
+      {
+        status: 401,
+      }
+    );
+  }
+
+  const urlArray = new URL(req.url).pathname.split('/');
+  const id = urlArray[urlArray.length - 1];
 
   try {
     await deleteDiaryById(id);
@@ -50,7 +85,23 @@ export async function DELETE(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
-  const id = new URL(req.url).pathname.replace(/[^0-9]/g, '');
+  const userId = verifyToken(
+    cookies().get('dreaming_accessToken')?.value ?? ''
+  ).userId;
+
+  if (!userId) {
+    return new Response(
+      JSON.stringify({
+        error: '토큰이 만료되었습니다.',
+      }),
+      {
+        status: 401,
+      }
+    );
+  }
+
+  const urlArray = new URL(req.url).pathname.split('/');
+  const id = urlArray[urlArray.length - 1];
   const { title, content, isShare } = await req.json();
 
   if (!isLengthInRange(title, DIARY.TITLE.MIN_LENGTH, DIARY.TITLE.MAX_LENGTH)) {

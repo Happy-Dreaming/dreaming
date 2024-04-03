@@ -38,6 +38,20 @@ const createNewDiary = async ({
   }
 };
 
+const getDiaryById = async (diaryId: string) => {
+  try {
+    const diary = await prisma.diary.findUnique({
+      where: {
+        id: diaryId,
+      },
+    });
+
+    return diary;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 const getAllDiaryByUser = async (userId: string) => {
   try {
     const allDiary = await prisma.diary.findMany({
@@ -63,17 +77,13 @@ const deleteDiaryById = async (diaryId: string) => {
   }
 };
 
+//TODO - 댓글 업데이트 시 Diary도 업데이트하는 로직 필요.
 const patchDiaryById = async (
   diaryId: string,
   args: Parameters<typeof createNewDiary>
 ) => {
   const { title, content, like, comments, isShare } = args[0];
   try {
-    const getDiaryById = await prisma.diary.findUnique({
-      where: {
-        id: diaryId,
-      },
-    });
     await prisma.diary.update({
       where: {
         id: diaryId,
@@ -90,5 +100,10 @@ const patchDiaryById = async (
     console.error(e);
   }
 };
-
-export { createNewDiary, getAllDiaryByUser, deleteDiaryById, patchDiaryById };
+export {
+  createNewDiary,
+  deleteDiaryById,
+  patchDiaryById,
+  getAllDiaryByUser,
+  getDiaryById,
+};
