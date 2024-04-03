@@ -1,0 +1,98 @@
+type Comment = {
+  diaryId: string;
+  writerId: string;
+  comment: string;
+};
+
+import prisma from '../../prisma/client';
+import { toKoreanTimeStamp } from '../../utils';
+
+const getCommentById = async (commentId: string) => {
+  try {
+    const comment = await prisma.comment.findUnique({
+      where: {
+        id: commentId,
+      },
+    });
+    return comment;
+  } catch (e) {
+    console.error(e);
+  }
+};
+const createCommentByDiaryId = async ({
+  diaryId,
+  writerId,
+  comment,
+}: Comment) => {
+  try {
+    await prisma.comment.create({
+      data: {
+        diaryId,
+        writerId,
+        parentId: '',
+        contents: comment,
+        created_At: toKoreanTimeStamp(new Date()),
+        updated_At: toKoreanTimeStamp(new Date()),
+      },
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const deleteCommentById = async (commentId: string) => {
+  try {
+    //해당 댓글을 부모로 갖는 모든 자식 댓글들
+    const childComments = await prisma.comment.findMany({
+      where: {
+        parentId: commentId,
+      },
+    });
+
+    childComments.forEach(async (comment) => {
+      await deleteCommentById(comment.id);
+    });
+
+    await prisma.comment.delete({
+      where: {
+        id: commentId,
+      },
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const patchCommentByCommentId = async ({
+  commentId,
+  userId,
+  comment,
+}: {
+  comment: string;
+  commentId: string;
+  userId: string;
+}) => {
+  try {
+    const getComment = await getCommentById(commentId);
+    await prisma.comment.update({
+      where: {
+        id: commentId,
+        writerId: userId,
+      },
+      data: {
+        ...getComment,
+        contents: comment,
+        updated_At: toKoreanTimeStamp(new Date()),
+      },
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export {
+  getCommentById,
+  patchCommentByCommentId,
+  deleteCommentById,
+  createCommentByDiaryId,
+};
