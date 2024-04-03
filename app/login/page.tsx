@@ -1,7 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import styles from "../styles/login.module.css";
-
+import styles from "./login.module.css";
 function login() {
     return (
         <div className={styles.container}>
