@@ -5,20 +5,23 @@ import { verifyToken } from '../../lib/token';
 import { getUserByUserId } from '../../lib/user';
 
 export async function GET(req: NextRequest) {
-  const userId = verifyToken(
-    cookies().get('dreaming_accessToken')?.value ?? ''
-  ).userId;
-
-  if (!userId) {
+  try {
+    const userId = verifyToken(
+      cookies().get('dreaming_accessToken')?.value ?? ''
+    ).userId;
+  } catch (e) {
     return new Response(
       JSON.stringify({
-        error: '유효하지 않은 사용자입니다.',
+        error: '토큰이 만료되었습니다.',
       }),
       {
         status: 401,
       }
     );
   }
+  const userId = verifyToken(
+    cookies().get('dreaming_accessToken')?.value ?? ''
+  ).userId;
   const user = await getUserByUserId(userId + '');
   if (user) {
     return new Response(

@@ -13,11 +13,11 @@ import { cookies } from 'next/headers';
 export async function GET(req: NextRequest) {
   const urlArray = new URL(req.url).pathname.split('/');
   const id = urlArray[urlArray.length - 1];
-  const userId = verifyToken(
-    cookies().get('dreaming_accessToken')?.value ?? ''
-  ).userId;
-
-  if (!userId) {
+  try{
+    const userId = verifyToken(
+      cookies().get('dreaming_accessToken')?.value ?? ''
+    ).userId;
+  }catch(e){
     return new Response(
       JSON.stringify({
         error: '토큰이 만료되었습니다.',
@@ -51,11 +51,11 @@ export async function GET(req: NextRequest) {
   }
 }
 export async function DELETE(req: NextRequest) {
-  const userId = verifyToken(
-    cookies().get('dreaming_accessToken')?.value ?? ''
-  ).userId;
-
-  if (!userId) {
+  try{
+    const userId = verifyToken(
+      cookies().get('dreaming_accessToken')?.value ?? ''
+    ).userId;
+  }catch(e){
     return new Response(
       JSON.stringify({
         error: '토큰이 만료되었습니다.',
@@ -84,12 +84,12 @@ export async function DELETE(req: NextRequest) {
   }
 }
 
-export async function PATCH(req: NextRequest) {
-  const userId = verifyToken(
-    cookies().get('dreaming_accessToken')?.value ?? ''
-  ).userId;
-
-  if (!userId) {
+export async function PATCH(req: NextRequest) {  
+  try{
+    const userId = verifyToken(
+      cookies().get('dreaming_accessToken')?.value ?? ''
+    ).userId;
+  }catch(e){
     return new Response(
       JSON.stringify({
         error: '토큰이 만료되었습니다.',
@@ -147,7 +147,7 @@ export async function PATCH(req: NextRequest) {
       },
     ]);
 
-    return new NextResponse(JSON.stringify(updatedDiary), {
+    return new Response(JSON.stringify(updatedDiary), {
       status: 200,
     });
   } catch (e) {
