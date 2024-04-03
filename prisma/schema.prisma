@@ -47,7 +47,7 @@ model Comment {
   parentId String?
   //마찬가지
   children Comment[] @relation("ParentChild")
-  diary    Diary    @relation(fields: [diaryId], references: [id], map: "CommentDiary_FK")
+  diary    Diary    @relation(fields: [diaryId], references: [id], map: "CommentDiary_FK" ,onDelete: Cascade)
   diaryId  String
   created_At String?
   updated_At String?

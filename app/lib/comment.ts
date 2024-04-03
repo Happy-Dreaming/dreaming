@@ -28,8 +28,7 @@ const createCommentByDiaryId = async ({
     await prisma.comment.create({
       data: {
         diaryId,
-        writerId,
-        parentId: '',
+        writerId: writerId + '',
         contents: comment,
         created_At: toKoreanTimeStamp(new Date()),
         updated_At: toKoreanTimeStamp(new Date()),

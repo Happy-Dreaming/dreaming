@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     ).userId;
     const newComment = await createCommentByDiaryId({
       diaryId,
-      writerId: userId,
+      writerId: userId + '',
       comment,
     });
 
