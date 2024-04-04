@@ -15,7 +15,7 @@ model Member {
   picture  String?
   nickname String?
   point    Int      @default(0)
-  comments Comment[]
+  comments Comment[] 
   diary Diary[]
   refreshToken String?  @unique 
 }
@@ -38,7 +38,7 @@ model Diary {
 model Comment {
   //기본키
   id       String   @id @default(cuid())
-  contents String
+  comment String?
   //Member의 ID를 writerID로서 참조한다.(외래 키)
   writer   Member   @relation(fields: [writerId], references: [id])
   writerId String

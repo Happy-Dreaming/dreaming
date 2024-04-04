@@ -29,7 +29,7 @@ const createCommentByDiaryId = async ({
       data: {
         diaryId,
         writerId: writerId + '',
-        contents: comment,
+        comment,
         created_At: toKoreanTimeStamp(new Date()),
         updated_At: toKoreanTimeStamp(new Date()),
       },
@@ -84,7 +84,7 @@ const patchCommentByCommentId = async ({
       },
       data: {
         ...getComment,
-        contents: comment,
+        comment,
         updated_At: toKoreanTimeStamp(new Date()),
       },
     });

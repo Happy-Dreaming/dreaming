@@ -11,14 +11,12 @@ const createNewDiary = async ({
   isShare,
   writer,
   like,
-  comments,
 }: {
   writer: Number;
   title: string;
   content: string;
   isShare: boolean;
   like?: number;
-  comments?: Comment[];
 }) => {
   try {
     const newDiary = await prisma.diary.create({
@@ -27,6 +25,9 @@ const createNewDiary = async ({
         isShare,
         title: title,
         contents: content,
+        comments: {
+          create: [],
+        },
         created_At: toKoreanTimeStamp(new Date()),
         updated_At: toKoreanTimeStamp(new Date()),
         like: 0,
@@ -44,7 +45,11 @@ const getDiaryById = async (diaryId: string) => {
       where: {
         id: diaryId,
       },
+      include: {
+        comments: true,
+      },
     });
+    console.log(diary);
 
     return diary;
   } catch (e) {
@@ -88,7 +93,7 @@ const patchDiaryById = async (
   diaryId: string,
   args: Parameters<typeof createNewDiary>
 ) => {
-  const { title, content, like, comments, isShare } = args[0];
+  const { title, content, like, isShare } = args[0];
   try {
     await prisma.diary.update({
       where: {
