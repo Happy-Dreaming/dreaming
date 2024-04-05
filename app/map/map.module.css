@@ -1,0 +1,62 @@
+.container {
+    width: 100vw;
+    height: 90vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.linkToLotto {
+    width: 72vw;
+    padding: 2vh 4vw;
+    margin: 4vh 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: linear-gradient(272.55deg, #53aaaf 0%, #357074 100%);
+
+    border-radius: var(--box_radius);
+    box-shadow: var(--box_shadow2);
+}
+
+.linkTitle {
+    margin-bottom: 0.4rem;
+    font-size: var(--font_size_content);
+    color: white;
+}
+
+.linkSubTitle {
+    font-size: var(--font_size_additional);
+    color: white;
+}
+
+.lottoIcon {
+    width: 2rem;
+}
+
+.mapTextBox {
+    width: 80vw;
+    margin: 2vh 0;
+    color: var(--font_color_blue);
+}
+
+.mapTitle {
+    font-size: var(--font_size_title);
+    margin-bottom: 0.4rem;
+}
+
+.mapSubTitle {
+    font-size: var(--font_size_content);
+    color: var(--font_color_gray3);
+}
+
+.map {
+    width: 100vw;
+    height: 64vh;
+
+    background-color: rgb(233, 233, 233);
+}
