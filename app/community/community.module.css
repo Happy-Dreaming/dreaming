@@ -1,0 +1,42 @@
+.container {
+    width: 100vw;
+    padding-bottom: 10vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.hallOfFameBox {
+    width: 100vw;
+    padding: 4vh 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(
+        180.08deg,
+        #ffd53f 0.07%,
+        #ffdc62 37.03%,
+        #f8f7ea 107.2%
+    );
+}
+
+.searchBox {
+    width: 80vw;
+    padding: 2vh 0;
+    margin-top: 3vh;
+
+    /* background-color: red; */
+}
+
+.searchTitle {
+    font-size: var(--font_size_title);
+    color: var(--main_color);
+}
+
+.pagination {
+    padding: 1vh 0 3vh 0;
+}
