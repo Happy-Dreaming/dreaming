@@ -46,7 +46,7 @@ function Navbar() {
                     꿈 해몽
                 </div>
             </Link>
-            <Link href="/lottoMap" className={styles.link}>
+            <Link href="/map" className={styles.link}>
                 <div className={styles.menu1}>
                     <div className={styles.menuIcon}>
                         <Bs7CircleFill />
