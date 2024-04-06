@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
       searchKeyword ?? '',
       (Number(page) - 1) * 15
     );
+    console.log(allKeywords);
     if (allKeywords.length === 0) {
       return new Response(
         JSON.stringify({
@@ -37,7 +38,7 @@ export async function GET(req: NextRequest) {
     });
   } catch (e) {
     return new Response(JSON.stringify(e), {
-      status: 502,
+      status: 500,
     });
   }
 }
