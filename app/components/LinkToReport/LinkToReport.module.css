@@ -1,0 +1,38 @@
+.container {
+    width: 39vw;
+    height: 20vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: var(--box_radius);
+    box-shadow: var(--box_shadow2);
+
+    background: var(--box_color_white);
+    border: 1px solid var(--stroke_color);
+}
+
+.icon > img {
+    width: 4.5rem;
+}
+
+.instructions {
+    width: 32vw;
+    color: var(--font_color_yellow);
+    margin-bottom: 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.title {
+    font-size: var(--font_size_content);
+    margin-bottom: 0.3rem;
+}
+
+.subTitle {
+    font-size: var(--font_size_additional);
+}

@@ -1,0 +1,42 @@
+.container {
+    position: absolute;
+    width: 100vw;
+    height: 90vh;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.banner {
+    width: 100vw;
+    height: 25vh;
+    background-color: var(--primary-color);
+
+    background: conic-gradient(
+        from 7.02deg at 75.83% 162.5%,
+        #53aaaf -35.68deg,
+        #ffdc62 15.28deg,
+        #448d91 303.65deg,
+        #53aaaf 324.32deg,
+        #ffdc62 375.28deg
+    );
+    box-shadow: var(--box_shadow);
+}
+.diary {
+    width: 80vw;
+    margin: 3.5vh;
+    /* height: 25vh; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.award {
+    width: 100vw;
+    margin-bottom: 1vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
