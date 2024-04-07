@@ -1,0 +1,34 @@
+.container {
+    width: 39vw;
+    height: 20vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: var(--box_radius);
+    box-shadow: var(--box_shadow2);
+
+    background: radial-gradient(50% 50% at 50% 50%, #ffdc62 0%, #f8f7ea 100%);
+    border: 1px solid var(--stroke_color);
+}
+
+.icon > img {
+    width: 7rem;
+}
+
+.instructions {
+    width: 32vw;
+    color: var(--font_color_yellow);
+    margin-bottom: 1rem;
+}
+
+.title {
+    font-size: var(--font_size_content);
+    margin-bottom: 0.3rem;
+}
+
+.subTitle {
+    font-size: var(--font_size_additional);
+}

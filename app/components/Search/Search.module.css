@@ -1,0 +1,31 @@
+.container {
+    width: 80vw;
+    margin-top: 1.5vh;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.searchBar {
+    width: 60vw;
+    height: 2rem;
+    padding: 0 1rem;
+    color: var(--font_color_blue);
+    border-radius: var(--box_radius);
+    border: 1px solid var(--stroke_color);
+    box-shadow: var(--box_shadow2);
+}
+
+.searchBar:focus {
+    outline: none;
+}
+
+.submitBtn {
+    height: 2rem;
+    padding: 0 0.5rem;
+    font-size: var(--font_size_additional);
+    color: var(--font_color_gray2);
+    border-radius: var(--box_radius);
+    border: 1px solid var(--stroke_color);
+    box-shadow: var(--box_shadow2);
+}
