@@ -8,7 +8,7 @@ const makeToken = (userId: string) => {
     },
     JWT_KEY,
     {
-      expiresIn: '1h',
+      expiresIn: '1d',
     }
   );
   return token;

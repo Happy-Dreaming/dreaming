@@ -60,5 +60,5 @@ model Dictionary {
   category String
   title    String
   contents String
-  @@index([title,contents,category])
+  @@index([category])
 }
