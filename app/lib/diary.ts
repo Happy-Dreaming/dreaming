@@ -35,7 +35,7 @@ const createNewDiary = async ({
     });
     return newDiary;
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -49,11 +49,10 @@ const getDiaryById = async (diaryId: string) => {
         comments: true,
       },
     });
-    console.log(diary);
 
     return diary;
   } catch (e) {
-    console.error(e);
+    throw new Error(JSON.stringify(e));
   }
 };
 
@@ -72,7 +71,7 @@ const getAllDiaryByUser = async (
     });
     return allDiary;
   } catch (e) {
-    console.error(e);
+    throw new Error(JSON.stringify(e));
   }
 };
 
@@ -84,7 +83,7 @@ const deleteDiaryById = async (diaryId: string) => {
       },
     });
   } catch (e) {
-    console.error(e);
+    throw new Error(JSON.stringify(e));
   }
 };
 
@@ -108,7 +107,7 @@ const patchDiaryById = async (
       },
     });
   } catch (e) {
-    console.error(e);
+    throw new Error(JSON.stringify(e));
   }
 };
 export {
