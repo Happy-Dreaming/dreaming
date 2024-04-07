@@ -4,6 +4,7 @@ import { DIARY } from '../../../constants';
 import { isLengthInRange } from '../../../utils';
 import { createNewDiary, getAllDiaryByUser } from '../../lib/diary';
 import { cookies } from 'next/headers';
+import { addUserPoints } from '../../lib/point';
 
 export async function GET(req: NextRequest) {
   const page = req.nextUrl.searchParams.get('page');
@@ -107,6 +108,8 @@ export async function POST(req: NextRequest) {
       isShare,
       writer: Number(decodedToken?.userId),
     });
+
+    await addUserPoints(userId + '');
     return new Response(JSON.stringify(newPost), {
       status: 200,
     });
