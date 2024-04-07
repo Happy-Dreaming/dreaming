@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
         error: '키워드를 찾을 수 없어요!',
       }),
       {
-        status: 502,
+        status: 404,
       }
     );
   }

@@ -18,7 +18,7 @@ const getDreamingDictionary = async (category: string) => {
       return getDreamingDictionarytFromDB;
     }
     const newDreamingDictionary = await createDreamingContent(category);
-    console.log(newDreamingDictionary);
+
     return newDreamingDictionary;
   } catch (e) {
     throw e;
