@@ -39,6 +39,28 @@ const createCommentByDiaryId = async ({
   }
 };
 
+const updateCommentByCommentId = async ({
+  commentId,
+  comment,
+}: {
+  commentId: string;
+  comment: string;
+}) => {
+  try {
+    await prisma.comment.update({
+      where: {
+        id: commentId + '',
+      },
+      data: {
+        comment,
+        updated_At: toKoreanTimeStamp(new Date()),
+      },
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 const deleteCommentById = async (commentId: string, userId: string) => {
   try {
     //댓글 작성자가 현재 로그인 한 유저와 동일하다면
@@ -98,4 +120,5 @@ export {
   patchCommentByCommentId,
   deleteCommentById,
   createCommentByDiaryId,
+  updateCommentByCommentId,
 };

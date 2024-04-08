@@ -49,16 +49,18 @@ const handler = NextAuth({
           name: kakao_account.profile.nickname,
           refreshToken,
         });
+
         cookies().set('dreaming_accessToken', makeToken(user.id), {
           sameSite: 'strict',
           secure: true,
-          maxAge: 60 * 24 * 24,
+          maxAge: 60 * 60 * 1000,
           httpOnly: true,
         });
+
         cookies().set('dreaming_refreshToken', refreshToken, {
           sameSite: 'strict',
           secure: true,
-          maxAge: 60 * 60 * 24 * 14,
+          maxAge: 60 * 60 * 24 * 7 * 1000,
           httpOnly: true,
         });
       } catch (e) {
