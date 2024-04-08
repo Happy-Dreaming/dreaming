@@ -5,7 +5,11 @@ interface DictionaryResponse {
   content: string;
 }
 
-const getDreamingDictionary = async (category: string) => {
+const getDreamingDictionary = async (
+  category: string,
+  skip: number,
+  take: number
+) => {
   try {
     const getDreamingDictionarytFromDB = await prisma.dictionary.findMany({
       where: {
@@ -13,6 +17,8 @@ const getDreamingDictionary = async (category: string) => {
           contains: category,
         },
       },
+      skip,
+      take,
     });
     if (getDreamingDictionarytFromDB.length > 0) {
       return getDreamingDictionarytFromDB;
@@ -89,9 +95,9 @@ const createDreamingContent = async (category: string) => {
     const promises = dreamKeywords.map((keyword) =>
       getDreamingContentsByCategory(keyword)
     );
-    console.log(promises);
     const results = await Promise.allSettled(promises);
 
+    console.log(results);
     const successfulResults = results
       .filter(
         (result): result is PromiseFulfilledResult<DictionaryResponse[]> =>
@@ -104,6 +110,8 @@ const createDreamingContent = async (category: string) => {
           contents: content.content,
         }))
       );
+
+    console.log(successfulResults);
 
     await prisma.dictionary.createMany({
       data: successfulResults,

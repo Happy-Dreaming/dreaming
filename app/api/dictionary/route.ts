@@ -4,6 +4,8 @@ import { isLengthInRange } from '../../../utils';
 
 export async function GET(req: NextRequest) {
   const category = req.nextUrl.searchParams.get('category') ?? '';
+  const page = req.nextUrl.searchParams.get('page') ?? '';
+  const skip = (Number(page) - 1) * 15;
   try {
     if (!isLengthInRange(category, 1, 100)) {
       return new Response(
@@ -15,7 +17,11 @@ export async function GET(req: NextRequest) {
         }
       );
     }
-    const getKeyword = await getDreamingDictionary(category ?? '');
+    const getKeyword = await getDreamingDictionary(
+      category ?? '',
+      parseInt(skip + ''),
+      15
+    );
 
     return NextResponse.json(
       {

@@ -62,6 +62,6 @@ model Dictionary {
   id       String @id @default(cuid())
   category String
   title    String
-  contents String
-  @@index([title,contents,category])
+  contents String 
+  @@index([category])
 }
