@@ -64,4 +64,5 @@ model Dictionary {
   title    String
   contents String 
   @@index([category])
+  @@fulltext([title,contents])
 }

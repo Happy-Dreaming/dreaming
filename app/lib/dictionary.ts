@@ -125,9 +125,34 @@ const createDreamingContent = async (category: string) => {
   }
 };
 
+const getDictionaryFromSearch = async (searchInput: string) => {
+  try {
+    const getDiariesFromKeyword = await prisma.dictionary.findMany({
+      where: {
+        OR: [
+          {
+            title: {
+              contains: searchInput,
+            },
+            contents: {
+              contains: searchInput,
+            },
+          },
+        ],
+      },
+    });
+
+    return getDiariesFromKeyword;
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+};
+
 export {
   getDreamingContentsByCategory,
   getDreamingKeywordByCategory,
   createDreamingContent,
   getDreamingDictionary,
+  getDictionaryFromSearch,
 };
