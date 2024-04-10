@@ -8,7 +8,8 @@ import LinkToDictionary from "../components/LinkToDictionary/LinkToDictionary.ts
 function MainPage() {
     return (
         <div className={styles.container}>
-            <div className={styles.banner}></div>
+            {/* <div className={styles.banner}></div> */}
+            <img src="./banner.png" className={styles.banner}></img>
             <div className={styles.diary}>
                 <LinkToDiary />
                 <LinkToDictionary />

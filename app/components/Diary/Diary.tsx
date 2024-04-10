@@ -9,33 +9,62 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { BsHeartFill } from "react-icons/bs";
 import { BsChatDotsFill } from "react-icons/bs";
 
-function Diary() {
+export interface DiaryProps {
+    id: string;
+    title: string;
+    isShare: boolean;
+    contents: string;
+    writerId: number;
+    like: number;
+    updated_At: string;
+}
+
+const Diary: React.FC<DiaryProps> = ({
+    id,
+    title,
+    isShare,
+    contents,
+    writerId,
+    like,
+    updated_At,
+}) => {
     return (
-        <Link href="/read">
+        //writerId 넣어서 read에 보내기
+        <Link href={`/read/${id}`}>
             <div className={styles.container}>
                 <p className={styles.title}>
-                    제목 <MdLock className={styles.lockIcon} />
+                    {title}
+                    {!isShare ? <MdLock className={styles.lockIcon} /> : null}
                 </p>
-                <p className={styles.content}>글 내용 미리보기</p>
+                <p className={styles.content}>{contents}</p>
                 <div className={styles.postFooter}>
                     <div className={styles.postInfo}>
                         <p>
-                            <BsFillPersonFill className={styles.postInfoIcon} />{" "}
-                            효키키
+                            <BsFillPersonFill className={styles.postInfoIcon} />
+                            {writerId}
                         </p>
-                        <p>
-                            <BsHeartFill className={styles.postInfoIcon} /> 100
-                        </p>
-                        <p>
-                            <BsChatDotsFill className={styles.postInfoIcon} />{" "}
-                            200
-                        </p>
+                        {isShare ? (
+                            <>
+                                <p>
+                                    <BsHeartFill
+                                        className={styles.postInfoIcon}
+                                    />
+                                    {like}
+                                </p>
+                                {/* <p>
+                                    <BsChatDotsFill
+                                        className={styles.postInfoIcon}
+                                    />
+                                    200
+                                </p> */}
+                            </>
+                        ) : null}
                     </div>
-                    <p className={styles.date}>2024.04.05</p>
+                    <p className={styles.date}>{updated_At}</p>
                 </div>
             </div>
         </Link>
     );
-}
+};
 
 export default Diary;

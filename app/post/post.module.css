@@ -50,6 +50,13 @@
     color: var(--font_color_gray3);
 }
 
+.postDate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font_size_additional);
+}
+
 .postBox {
     width: 72vw;
     padding: 2vh 4vw;
