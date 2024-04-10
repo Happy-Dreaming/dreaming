@@ -27,3 +27,23 @@ export const postComment = async (diaryId: string, comment: string) => {
         console.log(error);
     }
 };
+
+// [delete] 댓글 삭제
+export const delComment = async (commentId: string) => {
+    try {
+        // 요청 : commentId
+        const response = await axios({
+            method: "DELETE",
+            url: "/api/comment",
+            data: {
+                commentId: commentId,
+            },
+        });
+        // 응답 결과 : data
+        console.log(response.data);
+
+        return response.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
