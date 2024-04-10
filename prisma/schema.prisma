@@ -9,6 +9,8 @@ datasource db {
   
 }
 
+
+
 model Member {
   //고유키
   id       String   @id @default(cuid())
@@ -20,6 +22,17 @@ model Member {
   comments Comment[] 
   diary Diary[]
   refreshToken String?  @unique 
+  likes Like[]
+}
+
+model Like {
+  id       String  @id @default(cuid())
+  memberId String
+  diaryId  String
+  member   Member?  @relation(fields: [memberId], references: [id])
+  diary    Diary?  @relation(fields: [diaryId], references: [id])
+
+  @@unique([memberId, diaryId])
 }
 
 model Diary {
@@ -30,7 +43,7 @@ model Diary {
   comments Comment[]
   writerId String
   writer Member @relation(fields: [writerId],references: [id])
-  like     Int       @default(0)
+  like     Like[]
   isShare  Boolean   @default(true)
   created_At String?
   updated_At String?

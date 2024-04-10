@@ -20,12 +20,16 @@ export async function POST(req: NextRequest) {
     );
   }
   try {
-    const getDiary = await prisma.diary.findUnique({
+    const userId = verifyToken(
+      cookies().get('dreaming_accessToken')?.value ?? ''
+    ).userId;
+    const getDiary = await prisma.like.count({
       where: {
-        id: diaryId,
+        diaryId,
+        memberId: userId + '',
       },
     });
-    if (getDiary?.like === 0) {
+    if (getDiary === 0) {
       return new Response(
         JSON.stringify({
           error: '좋아요 취소를 할 수 없어요',
@@ -35,12 +39,12 @@ export async function POST(req: NextRequest) {
         }
       );
     }
-    const getDiaryLikesNumber = await prisma.diary.update({
+    const getDiaryLikesNumber = await prisma.like.delete({
       where: {
-        id: diaryId,
-      },
-      data: {
-        like: (getDiary?.like as number) - 1,
+        memberId_diaryId: {
+          diaryId: diaryId + '',
+          memberId: userId + '',
+        },
       },
     });
 

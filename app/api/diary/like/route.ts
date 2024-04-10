@@ -20,21 +20,21 @@ export async function POST(req: NextRequest) {
     );
   }
   try {
-    const getDiary = await prisma.diary.findUnique({
+    const userId = verifyToken(
+      cookies().get('dreaming_accessToken')?.value ?? ''
+    ).userId;
+    const getLikes = await prisma.like.count({
       where: {
-        id: diaryId,
+        diaryId,
       },
     });
-    const getDiaryLikesNumber = await prisma.diary.update({
-      where: {
-        id: diaryId,
-      },
+    const likes = await prisma.like.create({
       data: {
-        like: (getDiary?.like as number) + 1,
+        diaryId,
+        memberId: userId + '',
       },
     });
-
-    return NextResponse.json(JSON.stringify(getDiaryLikesNumber), {
+    return NextResponse.json(JSON.stringify(likes), {
       status: 200,
     });
   } catch (e) {
