@@ -8,6 +8,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { BsHeartFill } from "react-icons/bs";
 import { BsChatDotsFill } from "react-icons/bs";
 import { useAxios } from "../../hooks/useAxios";
+import { postComment } from "../../api/service/comment";
 
 export interface ReadProps {
     comments: string[];
@@ -36,7 +37,9 @@ function ReadPage() {
     const comment = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setInputComment(inputComment);
-        console.log(inputComment);
+        // [api] 댓글 post 요청
+        postComment(pathname, inputComment);
+        window.location.reload();
     };
 
     // [api] 모든 꿈 일기 get 요청
@@ -76,7 +79,7 @@ function ReadPage() {
             {/* 댓글 컴포넌트 */}
             <div className={styles.commentBox}>
                 {data?.comments.length > 0
-                    ? data?.comments.map((c) => (
+                    ? data?.comments.map((c, index) => (
                           <Comment
                               key={c.id}
                               id={c.id}

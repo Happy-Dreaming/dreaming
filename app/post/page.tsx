@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./post.module.css";
 import { postDiary } from "../api/service/diary";
+import { usePathname, useRouter } from "next/navigation";
 
 interface InputData {
     title: string;
@@ -12,6 +13,7 @@ interface InputData {
 }
 
 function PostPage() {
+    const router = useRouter();
     const [today, setToday] = useState<string>();
     const [inputData, setInputData] = useState<InputData>({
         title: "",
@@ -40,6 +42,8 @@ function PostPage() {
         if (inputData.isShare) boolean_share = true;
         // [api] post 요청
         postDiary(inputData.title, inputData.content, boolean_share);
+        // 바로 전 화면으로 이동
+        router.back();
     };
 
     // 오늘 날짜로 설정하기

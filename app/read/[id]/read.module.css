@@ -131,6 +131,10 @@
     color: rgb(255, 133, 133);
 }
 
+.commentBox {
+    margin-bottom: 6vh;
+}
+
 .commentBarForm {
     display: flex;
     justify-content: space-between;
