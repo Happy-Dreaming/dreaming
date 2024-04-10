@@ -1,22 +1,59 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./community.module.css";
 import HallOfFame from "../components/HallOfFame/HallOfFame";
 import BasicPagination from "../components/BasicPagination";
-import Diary from "../components/Diary/Diary";
+import Diary, { DiaryProps } from "../components/Diary/Diary";
 import Search from "../components/Search/Search";
+import { useAxios } from "../hooks/useAxios";
+import { useRouter } from "next/router";
 
 function CommunityPage() {
-    const [page, setPage] = useState(0); // 현재 페이지
+    const [page, setPage] = useState(1); // 현재 페이지
     const [totalPages, setTotalPages] = useState(0); // 총 데이터 수
+    // const [results, setResults] = useState([]); // 검색
+    // const router = useRouter(); // 검색
+    // const { keyword } = router.query; // 검색
 
     const handleChangePage = (
         event: React.ChangeEvent<unknown>,
         value: number
     ) => {
-        setPage(value - 1); // 페이지 변경 시 현재 페이지 상태 업데이트
+        setPage(value); // 페이지 변경 시 현재 페이지 상태 업데이트
     };
+
+    // [api] 모든 꿈 일기 get 요청
+    const { data, error, loading } = useAxios<DiaryProps[]>(
+        "/api/diaries",
+        "get",
+        {},
+        {
+            params: {
+                keyword: "",
+                page: 1,
+            },
+        }
+    );
+
+    console.log(data);
+
+    // [api] 검색
+    // useEffect(() => {
+    //     if (keyword) {
+    //         const { data, error, loading } = useAxios<DiaryProps[]>(
+    //             "/api/diaries",
+    //             "get",
+    //             {},
+    //             {
+    //                 params: {
+    //                     keyword: "",
+    //                     page: 1,
+    //                 },
+    //             }
+    //         );
+    //     }
+    // }, [keyword]);
 
     return (
         <div className={styles.container}>
@@ -28,16 +65,27 @@ function CommunityPage() {
                 <Search />
             </div>
             <div className={styles.posts}>
-                <Diary />
-                <Diary />
-                <Diary />
-                <Diary />
-                <Diary />
+                {data && data.length > 0 ? (
+                    data.map((d) => (
+                        <Diary
+                            key={d.id}
+                            id={d.id}
+                            title={d.title}
+                            isShare={d.isShare}
+                            contents={d.contents}
+                            like={d.like}
+                            writerId={d.writerId}
+                            updated_At={d.updated_At}
+                        />
+                    ))
+                ) : (
+                    <p className={styles.nothing}>등록된 일기가 없습니다.</p>
+                )}
             </div>
             <div className={styles.pagination}>
                 <BasicPagination
-                    count={10}
-                    page={page + 1}
+                    count={Math.round(page / 2)}
+                    page={page}
                     onChange={handleChangePage}
                 />
             </div>

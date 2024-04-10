@@ -75,6 +75,12 @@
     color: var(--main_color);
 }
 
+.nothing {
+    margin-top: 2vh;
+    font-size: var(--font_size_content);
+    color: var(--font_color_gray);
+}
+
 .pagination {
     width: 80vw;
     margin: 2.5vh 0;

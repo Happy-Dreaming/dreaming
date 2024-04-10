@@ -5,7 +5,7 @@ import Link from "next/link";
 
 function LinkToDiary() {
     return (
-        <Link href="/postDiary">
+        <Link href="/post">
             <div className={styles.container}>
                 <div className={styles.icon}>
                     <img src="/icon_moon.png" alt="icon" />
