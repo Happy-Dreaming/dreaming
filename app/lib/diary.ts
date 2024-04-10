@@ -19,6 +19,11 @@ const createNewDiary = async ({
   like?: number;
 }) => {
   try {
+    const getWriterInfo = await prisma.member.findUnique({
+      where: {
+        id: writer + '',
+      },
+    });
     const newDiary = await prisma.diary.create({
       data: {
         writerId: writer + '',
@@ -31,6 +36,8 @@ const createNewDiary = async ({
         created_At: toKoreanTimeStamp(new Date()),
         updated_At: toKoreanTimeStamp(new Date()),
         like: 0,
+        writerName: getWriterInfo?.name,
+        writerPicture: getWriterInfo?.picture,
       },
     });
     return newDiary;
@@ -58,8 +65,8 @@ const getDiaryById = async (diaryId: string) => {
 
 const getAllDiaryByUser = async (
   userId: string,
-  skip: number,
-  take: number
+  skip?: number,
+  take?: number
 ) => {
   try {
     const allDiary = await prisma.diary.findMany({
@@ -69,7 +76,17 @@ const getAllDiaryByUser = async (
       skip,
       take,
     });
-    return allDiary;
+    const totalDiaries = await prisma.diary.count({
+      where: {
+        writerId: userId,
+      },
+    });
+    console.log(allDiary, totalDiaries);
+
+    return {
+      diaries: allDiary,
+      total: totalDiaries,
+    };
   } catch (e) {
     throw new Error(JSON.stringify(e));
   }

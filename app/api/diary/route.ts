@@ -31,10 +31,11 @@ export async function GET(req: NextRequest) {
       cookies().get('dreaming_accessToken')?.value ?? ''
     ).userId;
     const getAllPosts = await getAllDiaryByUser(
-      userId,
+      userId + '',
       parseInt(skip + ''),
       parseInt(pageSize as string)
     );
+    console.log(getAllPosts);
 
     if (userId && getAllPosts) {
       return new Response(JSON.stringify(getAllPosts), {

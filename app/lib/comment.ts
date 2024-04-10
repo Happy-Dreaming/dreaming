@@ -25,6 +25,11 @@ const createCommentByDiaryId = async ({
   comment,
 }: Comment) => {
   try {
+    const getUserByWriterId = await prisma.member.findUnique({
+      where: {
+        id: writerId + '',
+      },
+    });
     await prisma.comment.create({
       data: {
         diaryId,
@@ -32,6 +37,8 @@ const createCommentByDiaryId = async ({
         comment,
         created_At: toKoreanTimeStamp(new Date()),
         updated_At: toKoreanTimeStamp(new Date()),
+        writerName: getUserByWriterId?.name,
+        writerPicture: getUserByWriterId?.picture,
       },
     });
   } catch (e) {

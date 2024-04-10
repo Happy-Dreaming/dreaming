@@ -25,7 +25,8 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(
       {
-        keyword: getKeyword,
+        dictionary: getKeyword.dictionary,
+        total: getKeyword.total,
       },
       {
         status: 200,

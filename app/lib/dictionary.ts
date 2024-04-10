@@ -11,6 +11,13 @@ const getDreamingDictionary = async (
   take: number
 ) => {
   try {
+    const dreaimingDictionaryCount = await prisma.dictionary.count({
+      where: {
+        category: {
+          contains: category,
+        },
+      },
+    });
     const getDreamingDictionarytFromDB = await prisma.dictionary.findMany({
       where: {
         category: {
@@ -21,11 +28,17 @@ const getDreamingDictionary = async (
       take,
     });
     if (getDreamingDictionarytFromDB.length > 0) {
-      return getDreamingDictionarytFromDB;
+      return {
+        dictionary: getDreamingDictionarytFromDB,
+        total: dreaimingDictionaryCount,
+      };
     }
     const newDreamingDictionary = await createDreamingContent(category);
 
-    return newDreamingDictionary;
+    return {
+      dictionary: newDreamingDictionary,
+      total: dreaimingDictionaryCount,
+    };
   } catch (e) {
     throw e;
   }
@@ -125,9 +138,13 @@ const createDreamingContent = async (category: string) => {
   }
 };
 
-const getDictionaryFromSearch = async (searchInput: string) => {
+const getDictionaryFromSearch = async (
+  searchInput: string,
+  skip?: number,
+  take?: number
+) => {
   try {
-    const getDiariesFromKeyword = await prisma.dictionary.findMany({
+    const totalKeywordLength = await prisma.dictionary.count({
       where: {
         OR: [
           {
@@ -141,8 +158,27 @@ const getDictionaryFromSearch = async (searchInput: string) => {
         ],
       },
     });
+    const getDiariesFromKeyword = await prisma.dictionary.findMany({
+      where: {
+        OR: [
+          {
+            title: {
+              contains: searchInput,
+            },
+            contents: {
+              contains: searchInput,
+            },
+          },
+        ],
+      },
+      skip,
+      take,
+    });
 
-    return getDiariesFromKeyword;
+    return {
+      dictionary: getDiariesFromKeyword,
+      total: totalKeywordLength,
+    };
   } catch (e) {
     console.error(e);
     throw e;

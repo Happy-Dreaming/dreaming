@@ -22,8 +22,7 @@ export async function GET(req: NextRequest) {
       searchKeyword ?? '',
       (Number(page) - 1) * 15
     );
-    console.log(allKeywords);
-    if (allKeywords.length === 0) {
+    if (allKeywords.diaries.length === 0) {
       return new Response(
         JSON.stringify({
           data: '찾는 다이어리가 존재하지 않아요!',
@@ -33,9 +32,15 @@ export async function GET(req: NextRequest) {
         }
       );
     }
-    return new Response(JSON.stringify(allKeywords), {
-      status: 200,
-    });
+    return new Response(
+      JSON.stringify({
+        diaries: allKeywords.diaries,
+        total: allKeywords.total,
+      }),
+      {
+        status: 200,
+      }
+    );
   } catch (e) {
     return new Response(JSON.stringify(e), {
       status: 500,
