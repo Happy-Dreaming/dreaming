@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     try {
         const allKeywords = await getDiariesBySearchKeyword(
             searchKeyword ?? "",
-            (Number(page) - 1) * 15
+            (Number(page) - 1) * 7
         );
 
         const likesPromises = allKeywords.diaries.map((diary) =>
