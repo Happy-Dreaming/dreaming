@@ -92,7 +92,7 @@ function ReadPage() {
         });
 
         if (result) {
-            deleteDiary(pathname);
+            await deleteDiary(pathname);
             router.back();
         }
     };

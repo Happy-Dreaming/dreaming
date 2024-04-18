@@ -70,7 +70,10 @@ function HallOfFame() {
                                           {d.title}
                                       </p>
                                       <p className={styles.diary_preview}>
-                                          {d.contents}
+                                          {/* {d.contents} */}
+                                          {d.contents.length >= 55
+                                              ? d.contents.slice(0, 55) + " ..."
+                                              : d.contents}
                                       </p>
                                   </div>
                               </div>

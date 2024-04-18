@@ -1,5 +1,6 @@
 import axios from "axios";
 import { GET } from "../refresh_token/route";
+import { axiosInstance } from "../../lib/api";
 
 /*
 <hall of fame 관련 api>
@@ -9,7 +10,7 @@ import { GET } from "../refresh_token/route";
 // [get] 베스트 글 불러오기
 export const getHallOfFame = async () => {
     try {
-        const response = await axios({
+        const response = await axiosInstance({
             method: "GET",
             url: "/api/best-posts",
         });

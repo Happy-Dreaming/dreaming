@@ -3,7 +3,7 @@ import prisma from "../../prisma/client";
 const getDiariesBySearchKeyword = async (keyword: string, page: number) => {
     try {
         let skip = 0;
-        const take = 15;
+        const take = 7;
         // 페이지 번호를 기반으로 건너뛸 항목 수를 계산합니다.
         if (page > 1) {
             skip = (page - 1) * take;
