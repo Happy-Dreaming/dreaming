@@ -57,5 +57,8 @@
 		- 소셜 로그인 (카카오)
 <br />
 
+## ERD
+
+<img src="https://github.com/Happy-Dreaming/dreaming/blob/main/public/erd.png" width="600px" />
 
 - https://www.youtube.com/watch?v=8-Fwt4HXTkc&t=390s
